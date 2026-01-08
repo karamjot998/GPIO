@@ -1,0 +1,59 @@
+#ifndef INC_STM3F439XX_H_
+#define INC_STM3F439XX_H_
+
+/*
+ * base addresses of flash and SRAM memories
+ */
+
+#define FLASH_BASEADDR				0x08000000U
+#define SRAM1_BASEADDR				0x20000000U
+#define SRAM						SRAM1_BASEADDR
+
+/*
+ * base addresses oh AHBx and APBx
+ */
+#define PERPIH_BASE					0x40000000U
+#define APB1PERIPH_BASE				PERIPH_BASE
+#define APB2PERIPH_BASE				0x40010000U
+#define AHB1PERIPH_BASE				0x40020000U
+#define AHB2PERIPH_BASE				0x50000000U
+
+
+/*
+ * base addresses of peripherals on AHB1 bus
+ */
+#define GPIOA_BASEADDR				(AHB1PERIPH_BASE + 0x0000)
+#define GPIOB_BASEADDR				(AHB1PERIPH_BASE + 0x0400)
+#define GPIOC_BASEADDR				(AHB1PERIPH_BASE + 0x0800)
+#define GPIOD_BASEADDR				(AHB1PERIPH_BASE + 0x0C00)
+#define GPIOE_BASEADDR				(AHB1PERIPH_BASE + 0x1000)
+#define GPIOF_BASEADDR				(AHB1PERIPH_BASE + 0x1400)
+#define GPIOG_BASEADDR				(AHB1PERIPH_BASE + 0x1800)
+#define GPIOH_BASEADDR				(AHB1PERIPH_BASE + 0x1C00)
+#define GPIOI_BASEADDR				(AHB1PERIPH_BASE + 0x2000)
+#define GPIOJ_BASEADDR				(AHB1PERIPH_BASE + 0x2400)
+#define GPIOK_BASEADDR				(AHB1PERIPH_BASE + 0x2800)
+
+
+/*
+ * PERIPHERAL REGISTER DEFINATION STRUCTURE
+ */
+
+struct {
+
+}
+
+
+
+
+
+
+#define
+
+
+
+
+
+
+
+#endif
