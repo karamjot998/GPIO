@@ -17,13 +17,65 @@
  */
 
 #include <stdint.h>
-#include <stm3f439xx.h>
+#include <string.h>
+#include "stm32f439xx.h"
+#include "stm32f439xx_gpio_driver.h"
+
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
+void delay(){
+
+	for(uint32_t i = 0; i < 500000/2 ; i++);
+}
+
+void EXTI9_5_IRQHandler(void){
+	delay();
+	GPIO_IRQHandling(GPIO_PIN_NO_9);
+	GPIO_ToggleOutputPin(GPIOB, GPIO_PIN_NO_14);
+}
+
 int main(void)
 {
+	GPIO_Handle_t GpioLed, GpioBtn;
+	memset(&GpioLed, 0, sizeof(GPIO_Handle_t));
+	memset(&GpioBtn, 0, sizeof(GPIO_Handle_t));
+
+	// LED CONFIGURATION
+	GpioLed.pGPIOx = GPIOB;
+	GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+	GpioLed.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_14;
+	GpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_OP_SPEED_FAST;
+	GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+	GpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PU;
+
+	GPIO_PeriClockControl(GPIOB, ENABLE);
+	GPIO_Init(&GpioLed);
+
+	// BUTTON CONFIGURATIONS
+	GpioBtn.pGPIOx = GPIOC;
+	GpioBtn.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IT_FT;
+	GpioBtn.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_9;
+	GpioBtn.GPIO_PinConfig.GPIO_PinSpeed = GPIO_OP_SPEED_FAST;
+	GpioBtn.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+
+	GPIO_PeriClockControl(GPIOC, ENABLE);
+	GPIO_Init(&GpioBtn);
+
+	GPIO_WritePin(GPIOB , GPIO_PIN_NO_14, GPIO_PIN_RESET);
+	// IRQ CONFIGURATION
+	GPIO_IRQPriorityConfig( IRQ_NO_EXTI9_5 , NVIC_IRQ_PRI1);
+	GPIO_IRQInterruptConfig( IRQ_NO_EXTI9_5 ,ENABLE);
+
     /* Loop forever */
-	for(;;);
+	while(1){
+
+//		if(GPIO_ReadPin(GPIOC, GPIO_PIN_NO_13) == SET){
+//			delay();
+//			GPIO_WritePin(GPIOB,GPIO_PIN_NO_14, GPIO_PIN_SET);
+//		}else{
+//			GPIO_WritePin(GPIOB,GPIO_PIN_NO_14, GPIO_PIN_RESET);
+//		}
+	}
 }
